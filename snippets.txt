@@ -1,0 +1,182 @@
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+/***********************************************
+ Focus Points
+ ***********************************************/
+
+ 0: REST ASSURED INTRO
+ 1: Create Maven Project
+ 2: Add Dependence
+ 3: Create a sample Scenarios GET, POST , DELETE   Test & TestNG
+ 4: Use QueryParam & PathParam in request
+ 4: Validate using Hamcrest, JsonPath
+ 5: Specifications
+ 6: Run create testng.xml file and configuration to surefire-plugins
+ 7: Add logback.xml and logger
+ 8: Questions Time ?
+
+/***********************************************
+	Resources in Scope
+ **********************************************/
+
+1:  http://jsonplaceholder.typicode.com/users (GET ALL / GET SINGLE )
+2:  https://gorest.co.in/public/v2/users  ( POST REQUEST  AND TOKEN  )
+3:  https://api.openbrewerydb.org/breweries (QUERY PARAMS)
+4:  https://reqres.in/api/users/2   consider for ( DELETE REQUEST )
+
+
+/***********************************************
+	sample get request
+ **********************************************/
+
+
+        given()
+            .when()
+            .get("http://jsonplaceholder.typicode.com/users")
+            .then()
+            .assertThat()
+            .body("id", hasItem(1))
+            .and().body("company[0].name", equalTo("Romaguera-Crona"))
+            .statusCode(200)
+            .log().all();
+
+
+/***********************************************
+    Create Pojo class for POST
+   **********************************************/
+
+/* Scenario Two Create user : using POST
+
+       String url = "https://gorest.co.in/public/v2/users"
+
+         you need a data and authentication token set the header values with
+         "Accept:application/json"  "Content-Type:application/json" ,
+         "Authorization: Bearer ACCESS-TOKEN"
+
+         1:  Create a new user using POST request
+         2:  validate the status code = 201
+         3:  validate a resource was created by checking response
+
+        "Accept:application/json"  "Content-Type:application/json" ,
+        "Authorization: Bearer ACCESS-TOKEN"
+
+        */
+
+      .header("Accept", "application/json")
+                      .header("Content-Type", "application/json")
+                      .auth().oauth2("3b03ac67d8ff4eda624c215babc78dcbf6dc8af304395c031c66e4a66d3a4d73")
+                      .body(newUser)
+
+
+/***********************************************
+ 	Scenarios
+  ************************************************/
+
+     Example 1 – GET request to get  List of all users
+
+         HTTP Method: GET
+         Target URL:  http://jsonplaceholder.typicode.com/users
+         Validate StatusCode = 200
+
+
+     Example 2 – GET request to get a single user
+
+         HTTP Method: GET
+         Target URL:  http://jsonplaceholder.typicode.com/users/1
+         Validate StatusCode = 200
+         and verify the response body contains ""
+
+
+   Example 2 – GET request to get a single user using query param
+
+         HTTP Method: GET
+         Target URL:  http://jsonplaceholder.typicode.com/users
+         Validate StatusCode = 200
+         and verify the response body contains ""
+
+
+
+        Example 4 – POST request to create a new post USING  POJO class
+
+         HTTP Method: POST
+         Target URL:  https://jsonplaceholder.typicode.com/posts
+         Validate StatusCode = 201
+         and verify the response body contains the latest data
+
+
+
+
+
+
+
+/***********************************************
+    Hamcrest Matcher
+   **********************************************
+
+ http://jsonplaceholder.typicode.com/users
+ check email has item == .body("email", hasItem("Shanna@melissa.tv")
+
+
+// SECOND
+
+ https://reqres.in/api/users?page=2
+ Check The size of the response = = 6 contents   .body("size()", is(6)) positive
+ Check the size of the response is not 6  .body("size()", is(not(6))) negative test value
+ Validate the first data in teh array   .body("data.first_name[0]", equalTo("Michael"))
+   and().body("data.id", hasSize(6))
+
+
+/***********************************************
+     END
+   **********************************************
+
+
+
+/////// sample
+
+
+  is()
+  is(not())
+  equalTo()  check the first value of the array  and last validate the data
+  hasItem()
+  hasSize(6)
+
+  //logging
+  .log().all()
+   log().header()
+   log().body()
+
+  log().all(). after then
+
+
+
+  log.info("Assert the response Body ID Contains 7 data in the Array ");
+          Assert.assertTrue(response.getBody()
+                  .jsonPath()
+                  .getList("data.id")
+                  .contains(6)
+
+
+
+/***********************************************
+    Sample Data Provider TestNG
+**************************************************
+
+
+https://api.openbrewerydb.org/breweries?by_name=cooper
+@DataProvider(name = "name")
+public  Object[][] sendName(){
+      return new Object[][]{
+              {"cooper"},
+              {"modern%20times"}
+      };
+}
+
+Support
+Basic Authentication
+Outh2 Token
+
+
+curl -i -H "Accept:application/json" -H "Content-Type:application/json"
+-XGET "https://gorest.co.in/public/v2/users"

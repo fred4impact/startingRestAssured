@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Sample Test" verbose="1" >
+    <test name="Functional_Test" >
+        <classes>
+            <class name="regres.Test_Hamcrest_Matcher" />
+            <class name="regres.Test_Post_Put" />
+        </classes>
+    </test>
+
+</suite>

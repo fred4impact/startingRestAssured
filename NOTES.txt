@@ -1,0 +1,142 @@
+
+END POINTS CREATED SPECIFICALLY FOR PRACTICE PURPOSES
+*****************************************************
+
+IMPORTS
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+
+
+What you will be able to do at the end of this sections are
+******
+
+Points :
+1: Good Interpretation of API DOCS in swagger OpenAPI
+2: Able to validate API header and server response
+3: Ability to apply BDD syntax in to test REST APIs using RestAssured
+4: use Rest-assured Java DSL and Hamcrest tools to test and validate API data
+5: Test API using GET, POST, UPDATE, DELETE, METHODS using Rest-assured.
+6: Good Understanding of API Framework and it's Components BDD
+7: Able to use Tools like: Rest-assured, java, intellij, TestNG, Junit, Gherkins, Cucumber.
+8: POISED Acronyms for strategy techniques for testing API [ paramter, output, interop,security, Errors, Data
+
+*********************************************************
+*********************************************************
+
+SWAGGER DOCS: http://fastapi-groceries.herokuapp.com/docs#/
+
+{Get All groceries}
+URL: "http://fastapi-groceries.herokuapp.com/api/v1/groceries"
+
+
+****************************************************************
+GUIDE RULES FOR SETTING HEADER BADE ON REQUEST
+*****************************************************************
+
+    // HEADERS REQUIRED FOR GET REQUEST applied to DELETE as well
+    /*
+     *   1: H = accept , application,json
+     *   2: H = content-type, application/json or xml or text
+     *   3: if QUERY set the query param on the header
+     * */
+    // HEADERS REQUIRED FOR POST & PUT REQUEST METHODS
+     /*  1: H = accept , application,json
+     *   2: H = content-type, application/json or xml or text
+     *   3: H = json or xml body you you are sending in as Payload
+     *   4: IF authentication required set authentication
+     *
+      */
+
+    //  RULE 1: Given i set all the HEADERS Parameters needed  ARE SET
+    //  RULE 2: when I SENT THE REQUEST METHOD WHICH IS THE CONDITION FOR TEST
+    //  RULE 3: THEN I CAN VALIDATE RESPONSE HEADER OR BODY from the RESOURCE ENDPOINTS
+    //  RULE 4: AND I CAN ALSO DO EXTRA CONDITONAL VALIDATION FOR THE RESPONSE
+
+
+************************************************
+HEADER VALIDATION
+**********************************************
+
+WHAT WE send on the headers and Validate
+content-type
+cookies
+auth
+queryparam
+username and password
+body
+
+
+
+#HAMCREST
+1 hasItem()   cheeck to see if groceries contains item name "Peanut Butter"
+2 equalTo()  EG the first groceries item on the list is equalTo()  = Bananas
+3: is(not())
+4: hasSize()
+5 :instanceOf(String.class)
+
+
+
+
+
+
+#### Payload
+[
+    {
+        "grocery_id": "128e8662-386e-466e-8f95-a19ae9560ead",
+        "name": "Bananas",
+        "brand": "chiquita ",
+        "origin": "Mexico",
+        "quantity": "40",
+        "size": 12
+    },
+    {
+        "grocery_id": "228e8662-386e-466e-8f95-a19ae9560eae",
+        "name": "Peanut Butter",
+        "brand": "JIF ",
+        "origin": "Mexico",
+        "quantity": "30",
+        "size": 2
+    },
+    {
+        "grocery_id": "328e8662-386e-466e-8f95-a19ae9560eab",
+        "name": "Wheat Bread",
+        "brand": "Oroweat ",
+        "origin": "Califonia",
+        "quantity": "100",
+        "size": 15
+    },
+    {
+        "grocery_id": "428e8662-386e-466e-8f95-a19ae9560eab",
+        "name": "Greek yogurt",
+        "brand": "Fage ",
+        "origin": "Califonia",
+        "quantity": "5",
+        "size": 10
+    }
+]
+
+
+String Body = "[
+{
+               	"grocery_id": "7217c573-cf8e-4262-9d1a-168a2c591575",
+               	"name": "string",
+               	"brand": "string",
+               	"origin": "string",
+               	"quantity": "string",
+               	"size": 0
+               }"
+
+
+
+
+HAMCREST MATCHER: FRO VALIDATION:
+
+
+ body("size()", is(not(6))).log().all()
+.body("data.first_name[0]", equalTo("Michael")
+.body("data.id", hasSize(6))
+.body("data.email[-1]",  anyOf(startsWith("rachel"), containsString("reqres")))
+.and().body("data.last_name[1]", instanceOf(String.class))
+.and().body("data.id", nullValue())
+.and().body("data.email", hasItem("lindsay.ferguson@reqres.in"))
